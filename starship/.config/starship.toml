@@ -10,6 +10,9 @@ vimcmd_symbol = "[❮](green)"
 [python]
 disabled = true
 
+[container]
+disabled = true
+
 [directory]
 truncation_length = 4
 # Catppuccin 'lavender'
