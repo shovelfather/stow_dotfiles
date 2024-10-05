@@ -1,6 +1,3 @@
-# Use powerline
-USE_POWERLINE="true"
-
 # Source manjaro-zsh-configuration
 if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
   source /usr/share/zsh/manjaro-zsh-config
@@ -10,20 +7,12 @@ fi
 #directory swapping
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-source ~/.zplug/init.zsh
-
-#Adds an indicator for the specific mode we're in on the vim prompt
-function zle-line-init zle-keymap-select {
-	RPS1="${${KEYMAP/vicmd/}/(main|viins)/}"
-	RPS2=$RPS1
-	zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
+source "${ZPLUG_HOME}.zplug/init.zsh"
 
 #Need this to manage Ruby envs
-eval "$(${HOME}/.rbenv/bin/rbenv init - zsh)"
+if [[  -d "${HOME}/.rbenv" ]]; then
+  eval "$(${HOME}/.rbenv/bin/rbenv init - zsh)"
+fi
 
 # Configure fzf to open in a tmux pane if it was called in a tmux session;
 # otherwise, open as normal.
@@ -46,17 +35,14 @@ _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
 
-#God I fucking love vim everything
-#Engage vim mode
 bindkey -v
 zplug "jeffreytse/zsh-vi-mode"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug load
 
-source /usr/share/fzf/completion.zsh
+source <(fzf --zsh)
 
 # Load atuin shell integration
-#
 
 eval "$(atuin init zsh)"
 bindkey '^r' atuin-search-viins
@@ -65,5 +51,5 @@ bindkey '^r' atuin-search
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+[[ -d $PYENV_ROOT/bin ]] && eval "$(pyenv init -)"
+[[ -d $PYENV_ROOT/bin ]] && eval "$(pyenv virtualenv-init -)"
