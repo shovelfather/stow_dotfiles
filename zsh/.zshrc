@@ -40,13 +40,13 @@ zplug "jeffreytse/zsh-vi-mode"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug load
 
-source <(fzf --zsh)
+FZF_CTRL_R_COMMAND= source <(fzf --zsh)
 
 # Load atuin shell integration
 
 eval "$(atuin init zsh)"
-bindkey '^r' atuin-search-viins
 bindkey '^r' atuin-search-vicmd
+bindkey '^r' atuin-search-viins
 bindkey '^r' atuin-search
 
 export PYENV_ROOT="$HOME/.pyenv"
